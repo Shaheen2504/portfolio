@@ -1,5 +1,7 @@
 # Shaheen Raqueeb — Portfolio
 
+**Live site: https://shaheen2504.github.io/portfolio/**
+
 React 18 + Redux Toolkit + Vite portfolio with two live demos:
 
 - **Fine-jewellery storefront** (`src/components/Storefront.jsx`): filters, sort, search, quick view with metal/ring-size customisation, GST price breakup, PIN-code delivery check, bag and wishlist. Shared state in Redux Toolkit slices (`src/store/`) with memoised `createSelector` selectors and a live state viewer.
