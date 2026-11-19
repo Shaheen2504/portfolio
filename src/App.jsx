@@ -5,7 +5,7 @@ import { selectBag } from './store/bagSlice';
 import Storefront from './components/Storefront';
 import Topology from './components/Topology';
 
-const EMAIL = 'sharya2609@gmail.com';
+const EMAIL = 'shaheenraqeeb03@gmail.com';
 const GITHUB = 'https://github.com/Shaheen2504';
 const LINKEDIN = 'https://www.linkedin.com/in/shaheen-raqueeb-900717246/';
 
