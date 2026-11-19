@@ -18,7 +18,7 @@ function Header() {
       <div className="wrap head-row">
         <a href="#top" className="brand">Shaheen Raqueeb</a>
         <nav aria-label="Sections">
-          <a href="#fit">Fit</a><a href="#storefront">Storefront</a><a href="#pulse">IITH Pulse</a><a href="#topology">Topology</a><a href="#contact">Contact</a>
+          <a href="#storefront">Storefront</a><a href="#pulse">IITH Pulse</a><a href="#topology">Topology</a><a href="#contact">Contact</a>
         </nav>
         <div className="head-actions">
           <button type="button" className="icon-btn" onClick={() => dispatch(setBagOpen(true))} aria-label={`Open bag, ${count} items`}>Bag <span className="badge">{count}</span></button>
@@ -29,62 +29,29 @@ function Header() {
   );
 }
 
+const HERO_PICS = ['e3', 'n3', 'r1'];
+
 function Hero() {
   return (
     <section className="hero wrap" id="top">
       <div className="hero-text">
-        <p className="eyebrow">Frontend developer · M.Tech CSE, IIT Hyderabad · 2027</p>
-        <h1>I build interfaces that stay fast, clear and correct when real people use them.</h1>
+        <p className="hello">Hi, I'm Shaheen</p>
+        <h1>I make web interfaces that feel <em>good</em> to use.</h1>
         <p className="lede">
-          React and Redux on the front, Node.js behind it. I have shipped a real-time campus app used from phones, a network map that a professor reviews every week, and a payment app hardened against attackers. This page is itself a React + Redux Toolkit app, and the shop below is a working demo you can click through.
+          I'm doing my M.Tech in CSE at IIT Hyderabad. Most of my time goes into React, some Node.js, and a lot of fiddling with CSS until a page looks right on a cheap phone and a big monitor alike.
+        </p>
+        <p className="lede">
+          Below you'll find a jewellery store you can actually shop in, a live campus app my hackathon team built, and a map of a real university network.
         </p>
         <div className="cta-row">
-          <a className="btn primary" href="#storefront">Try the storefront demo</a>
+          <a className="btn primary" href="#storefront">Open the store</a>
           <a className="btn ghost" href={GITHUB} target="_blank" rel="noreferrer">GitHub</a>
           <a className="btn ghost" href={LINKEDIN} target="_blank" rel="noreferrer">LinkedIn</a>
         </div>
       </div>
-      <aside className="exhibit" aria-label="How this page is built">
-        <p className="eyebrow">Exhibit A: this page</p>
-        <ul>
-          <li><b>React 18</b> components, built with <b>Vite</b></li>
-          <li><b>Redux Toolkit</b>: 3 slices, memoised selectors, live state viewer</li>
-          <li>Hand-written <b>CSS</b>: tokens, Grid, fluid type, light and dark themes</li>
-          <li>Phone to desktop from one layout, keyboard accessible</li>
-          <li><b>8 unit tests</b> (Vitest) on pricing, bag, filters and graph logic</li>
-        </ul>
-      </aside>
-    </section>
-  );
-}
-
-const FIT = [
-  ['HTML5, CSS3, JavaScript', 'No UI kit anywhere: semantic HTML and hand-written CSS on this site, IITH Pulse and the topology dashboard.', 'This page'],
-  ['React.js and Redux', 'Storefront demo: catalogue, quick view, bag and wishlist in Redux Toolkit slices with createSelector. IITH Pulse: React 18 with hooks across 9 screens.', '#storefront'],
-  ['Responsive, cross-browser UI', 'IITH Pulse was designed for phones first (students report crowds with one tap). This page reflows from 360 px up and uses only standard web APIs.', '#pulse'],
-  ['Node.js and backend APIs', 'IITH Pulse server: Express REST API plus Socket.IO, so every screen updates within about a second. Also built APIs in FastAPI and PHP.', '#pulse'],
-  ['Working with designers', 'The topology map went through weekly reviews with my professor. Labels, legend, role colours and the ×N link badges all came from that feedback.', '#topology'],
-  ['Testing and code quality', '8 Vitest tests here, 19 on IITH Pulse, 375 on the topology project, 45 on the RAG system. Every repo has a README and a test command.', '#work'],
-  ['UI/UX detail', 'Duplicate issues are found while you type in FixIt. Prices here show a full GST breakup, as Indian jewellery buyers expect.', '#storefront'],
-  ['Security of web apps', 'TransactiWar: CSRF tokens, output escaping, security headers, HttpOnly SameSite cookies. Frontend code that does not leak.', '#work'],
-];
-
-function Fit() {
-  return (
-    <section className="section wrap" id="fit">
-      <div className="section-head">
-        <p className="eyebrow">How my work maps to the role</p>
-        <h2>Frontend Developer, requirement by requirement</h2>
-      </div>
-      <div className="fit-table" role="table" aria-label="Job requirements and evidence">
-        {FIT.map(([req, proof, where]) => (
-          <div className="fit-row" role="row" key={req}>
-            <div role="cell" className="fit-req">{req}</div>
-            <div role="cell" className="fit-proof">{proof}</div>
-            <div role="cell" className="fit-where">{where.startsWith('#') ? <a href={where}>See it</a> : <span className="muted">{where}</span>}</div>
-          </div>
-        ))}
-      </div>
+      <a className="hero-pics" href="#storefront" aria-label="Go to the jewellery store">
+        {HERO_PICS.map((id) => <img key={id} src={`./jewels/${id}.jpg`} alt="" />)}
+      </a>
     </section>
   );
 }
@@ -104,7 +71,7 @@ function Section({ id, eyebrow, title, intro, children }) {
 
 function Pulse() {
   return (
-    <Section id="pulse" eyebrow="Case study · Lambda Hackathon 2026" title="IITH Pulse: a live campus app, built for phones"
+    <Section id="pulse" eyebrow="Lambda Hackathon 2026" title="IITH Pulse: is the mess crowded right now?"
       intro="Students see how crowded the mess, library and gym are right now, report broken things, and find study partners. Every tap updates every other open screen within about a second.">
       <div className="case">
         <figure className="shot desk"><img src="./shots/pulse.png" alt="IITH Pulse desktop view: live campus crowd map, timetable predictions and list of places with crowd levels" loading="lazy" width="1280" height="1500" /></figure>
@@ -142,7 +109,7 @@ const MORE = [
 
 function More() {
   return (
-    <Section id="work" eyebrow="More work" title="Other projects">
+    <Section id="work" eyebrow="More things I've built" title="Beyond the frontend">
       <div className="more">
         {MORE.map((m) => (
           <a className="more-card" key={m.name} href={m.href} target="_blank" rel="noreferrer">
@@ -175,7 +142,8 @@ function Contact() {
       </div>
       <div className="reach">
         <p className="eyebrow">Contact</p>
-        <h2>Let's talk.</h2>
+        <h2>Say hello.</h2>
+        <p className="muted">Happy to walk you through any of this on a call, or show you the code behind it.</p>
         <p className="email-row"><span className="mono select">{EMAIL}</span><button type="button" className="btn ghost" onClick={copy}>{copied ? 'Copied' : 'Copy email'}</button></p>
         <p><a href={GITHUB} target="_blank" rel="noreferrer">github.com/Shaheen2504</a></p>
         <p><a href={LINKEDIN} target="_blank" rel="noreferrer">LinkedIn: Shaheen Raqueeb</a></p>
@@ -191,20 +159,19 @@ export default function App() {
       <Header />
       <main>
         <Hero />
-        <Fit />
-        <Section id="storefront" eyebrow="Live demo · React + Redux Toolkit" title="A fine-jewellery storefront"
-          intro="Filter, sort, search, open any piece, change the metal and ring size, and watch the price breakup update. Check a PIN code for Try at Home, add to bag. All shared state lives in Redux; open the state viewer under the grid to see it change.">
+        <Section id="storefront" eyebrow="Try it" title="A jewellery store you can shop in"
+          intro="Pick a jhumka, switch a ring to rose gold, change its size and watch the price breakup move, the way it does on a real Indian jewellery site: gold value, making charges, stones, 3% GST. Check if your PIN code gets Try at Home, then add to bag. It runs on React and Redux Toolkit, and the state viewer under the grid shows the store updating as you click.">
           <Storefront />
         </Section>
         <Pulse />
-        <Section id="topology" eyebrow="Live demo · ongoing research project" title="Network topology visualisation"
-          intro="For a professor at IIT Hyderabad I am building a tool that reads switch neighbour tables and draws the campus network: role rows, ports at both ends, parallel-link badges, search, deep links and a single-points-of-failure panel. 375 automated tests. The code is private because it holds real campus data, so this demo runs on a synthetic network with the same interactions.">
+        <Section id="topology" eyebrow="Research project" title="Drawing a campus network nobody can see"
+          intro="With a professor at IIT Hyderabad, I'm building a tool that asks every switch who its neighbours are and draws the whole campus network from the answers. Click a switch to see its ports, search for one, or cut a link and see what goes dark. The real version runs on live campus data, so it stays private. This one uses a made-up network with the same interactions.">
           <Topology />
         </Section>
         <More />
         <Contact />
       </main>
-      <footer className="wrap foot small muted">Built with React 18, Redux Toolkit and Vite. Product names, prices and the store brand in the demo are invented.</footer>
+      <footer className="wrap foot small muted">Designed and built by me with React, Redux Toolkit and Vite. The store name, product names and prices are made up. The jewellery photos are real pieces from Wikimedia Commons, credited in each product view.</footer>
     </>
   );
 }

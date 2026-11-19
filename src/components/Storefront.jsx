@@ -4,8 +4,9 @@ import { setFilter, resetFilters, selectVisibleProducts } from '../store/catalog
 import { addToBag, changeQty, toggleWishlist, selectBag } from '../store/bagSlice';
 import { openQuickView, closeQuickView, setBagOpen, setPincode, checkPincode } from '../store/uiSlice';
 import { METALS, RING_SIZES, priceBreakup, inr } from '../store/pricing';
-import { PRODUCTS, CATEGORIES, OCCASIONS } from '../data/products';
-import JewelArt from './JewelArt';
+import { PRODUCTS, CATEGORIES, OCCASIONS, photo, CREDITS } from '../data/products';
+
+const Photo = ({ product, className }) => <img className={className} src={photo(product)} alt={product.name} loading="lazy" />;
 
 function Filters() {
   const f = useSelector((s) => s.catalog);
@@ -15,7 +16,7 @@ function Filters() {
     <aside className="filters" aria-label="Filters">
       <label className="field">
         <span>Search</span>
-        <input id="sf-q" type="search" placeholder="Ring, pendant…" value={f.query} onChange={set('query')} />
+        <input id="sf-q" type="search" placeholder="Jhumka, solitaire…" value={f.query} onChange={set('query')} />
       </label>
       <fieldset className="chips" aria-label="Category">
         <legend>Category</legend>
@@ -45,7 +46,7 @@ function ProductCard({ p }) {
   return (
     <article className="product">
       <button type="button" className="product-art" onClick={() => dispatch(openQuickView(p.id))} aria-label={`Quick view ${p.name}`}>
-        <JewelArt product={p} size={132} />
+        <Photo product={p} />
         {p.tryAtHome && <span className="tag">Try at Home</span>}
       </button>
       <button type="button" className={wished ? 'wish on' : 'wish'} aria-pressed={wished} aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'} onClick={() => dispatch(toggleWishlist(p.id))}>
@@ -82,7 +83,10 @@ function QuickView() {
     <div className="overlay" onClick={() => dispatch(closeQuickView())}>
       <div className="sheet" role="dialog" aria-modal="true" aria-label={p.name} onClick={(e) => e.stopPropagation()}>
         <button type="button" className="close" aria-label="Close" onClick={() => dispatch(closeQuickView())}>×</button>
-        <div className="sheet-art"><JewelArt product={p} metal={metal} size={220} /></div>
+        <figure className="sheet-art">
+          <Photo product={p} />
+          <figcaption className="small muted">Shown in {p.metals[0]} · photo: <a href={CREDITS[p.id].source} target="_blank" rel="noreferrer">{CREDITS[p.id].author}</a>, {CREDITS[p.id].license}</figcaption>
+        </figure>
         <div className="sheet-info">
           <p className="eyebrow">{p.category}</p>
           <h3>{p.name}</h3>
@@ -140,7 +144,7 @@ function Bag() {
         <ul className="lines">
           {items.map((i) => (
             <li key={i.key}>
-              <JewelArt product={i.product} metal={i.metal} size={56} />
+              <Photo product={i.product} className="thumb" />
               <div>
                 <b>{i.product.name}</b>
                 <p className="small muted">{i.metal}{i.size ? ` · size ${i.size}` : ''}</p>
@@ -182,7 +186,7 @@ export default function Storefront() {
   return (
     <div className="store">
       <div className="store-bar">
-        <span className="store-logo">Aurelle <small>fine jewellery · concept</small></span>
+        <span className="store-logo">Aurelle <small>a storefront I built</small></span>
         <span className="muted small">♡ {wish}</span>
         <button type="button" className="btn ghost" onClick={() => dispatch(setBagOpen(true))}>Bag <span className="badge">{count}</span></button>
       </div>
