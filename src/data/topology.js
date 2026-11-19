@@ -2,28 +2,28 @@
 const node = (id, role, model) => ({ id, role, model });
 export const ROLES = ['firewall', 'core', 'distribution', 'access'];
 export const NODES = [
-  node('FW-EDGE', 'firewall', 'NGFW HA pair'),
-  node('CORE-1', 'core', 'Catalyst 9500'), node('CORE-2', 'core', 'Catalyst 9500'), node('WLC-1', 'core', 'Wireless LAN controller'),
-  ...['A', 'B', 'C', 'D', 'E', 'F'].map((x) => node(`DIST-${x}`, 'distribution', 'Catalyst 9300')),
-  ...Array.from({ length: 12 }, (_, i) => node(`ACC-${String(i + 1).padStart(2, '0')}`, 'access', i % 3 ? 'Aruba 2930F' : 'SG350-28')),
+  node('GATE', 'firewall', 'Firewall'),
+  node('HUB-1', 'core', 'Core switch'), node('HUB-2', 'core', 'Core switch'), node('AIR-1', 'core', 'Wi-Fi controller'),
+  ...['A', 'B', 'C', 'D', 'E', 'F'].map((x) => node(`ZONE-${x}`, 'distribution', 'Distribution switch')),
+  ...Array.from({ length: 12 }, (_, i) => node(`EDGE-${String(i + 1).padStart(2, '0')}`, 'access', i % 3 ? 'Access switch, 48 port' : 'Access switch, 24 port')),
 ];
 
 let n = 0;
 const link = (a, b, pa, pb) => ({ id: `L${++n}`, a, b, pa, pb });
 export const LINKS = [
-  link('FW-EDGE', 'CORE-1', 'port1', 'Te1/0/1'), link('FW-EDGE', 'CORE-2', 'port2', 'Te1/0/1'),
-  link('CORE-1', 'CORE-2', 'Fo1/0/1', 'Fo1/0/1'), link('CORE-1', 'WLC-1', 'Te1/0/24', 'Te0/0/0'),
-  // Distribution: dual-homed to both cores, except DIST-E (single uplink on purpose).
+  link('GATE', 'HUB-1', 'p1', 'up1'), link('GATE', 'HUB-2', 'p2', 'up1'),
+  link('HUB-1', 'HUB-2', 'x1', 'x1'), link('HUB-1', 'AIR-1', 'p24', 'up1'),
+  // Distribution: dual-homed to both cores, except ZONE-E (single uplink on purpose).
   ...['A', 'B', 'C', 'D', 'F'].flatMap((x, i) => [
-    link('CORE-1', `DIST-${x}`, `Te1/0/${i + 2}`, 'Te1/1/1'),
-    link('CORE-2', `DIST-${x}`, `Te1/0/${i + 2}`, 'Te1/1/2'),
+    link('HUB-1', `ZONE-${x}`, `p${i + 2}`, 'up1'),
+    link('HUB-2', `ZONE-${x}`, `p${i + 2}`, 'up2'),
   ]),
-  link('CORE-1', 'DIST-E', 'Te1/0/9', 'Te1/1/1'),
-  // Access: one uplink each; ACC-01 and ACC-07 are dual-homed.
+  link('HUB-1', 'ZONE-E', 'p9', 'up1'),
+  // Access: one uplink each; EDGE-01 and EDGE-07 are dual-homed.
   ...[['A', 1], ['A', 2], ['B', 3], ['B', 4], ['C', 5], ['C', 6], ['D', 7], ['D', 8], ['E', 9], ['E', 10], ['F', 11], ['F', 12]].map(([d, a]) =>
-    link(`DIST-${d}`, `ACC-${String(a).padStart(2, '0')}`, `Gi1/0/${a + 10}`, 'Gi1/0/28')
+    link(`ZONE-${d}`, `EDGE-${String(a).padStart(2, '0')}`, `p${a + 10}`, 'up1')
   ),
-  link('DIST-B', 'ACC-01', 'Gi1/0/40', 'Gi1/0/27'), link('DIST-C', 'ACC-07', 'Gi1/0/41', 'Gi1/0/27'),
+  link('ZONE-B', 'EDGE-01', 'p40', 'up2'), link('ZONE-C', 'EDGE-07', 'p41', 'up2'),
 ];
 
 const adjacency = (links) => {
@@ -33,7 +33,7 @@ const adjacency = (links) => {
 };
 
 // BFS from the core layer, skipping links that are down. Returns the set of reachable devices.
-export function reachable(links, down, roots = ['CORE-1', 'CORE-2']) {
+export function reachable(links, down, roots = ['HUB-1', 'HUB-2']) {
   const adj = adjacency(links);
   const seen = new Set(roots.filter((r) => adj.has(r)));
   const queue = [...seen];

@@ -38,7 +38,7 @@ function Hero() {
         <p className="hello">Hi, I'm Shaheen</p>
         <h1>I make web interfaces that feel <em>good</em> to use.</h1>
         <p className="lede">
-          I'm doing my M.Tech in CSE at IIT Hyderabad. Most of my time goes into React, some Node.js, and a lot of fiddling with CSS until a page looks right on a cheap phone and a big monitor alike.
+          I'm doing my M.Tech in CSE at IIT Hyderabad.
         </p>
         <p className="lede">
           Below you'll find a jewellery store you can actually shop in, a live campus app my hackathon team built, and a map of a real university network.
@@ -160,7 +160,7 @@ export default function App() {
       <main>
         <Hero />
         <Section id="storefront" eyebrow="Try it" title="A jewellery store you can shop in"
-          intro="Pick a jhumka, switch a ring to rose gold, change its size and watch the price breakup move, the way it does on a real Indian jewellery site: gold value, making charges, stones, 3% GST. Check if your PIN code gets Try at Home, then add to bag. It runs on React and Redux Toolkit, and the state viewer under the grid shows the store updating as you click.">
+          intro="Pick a jhumka, switch a ring to rose gold, change its size and watch the price breakup move, the way it does on a real Indian jewellery site: gold value, making charges, stones, 3% GST. Check if your PIN code gets Try at Home, then add to bag.">
           <Storefront />
         </Section>
         <Pulse />

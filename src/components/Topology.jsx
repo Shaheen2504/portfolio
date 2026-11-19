@@ -16,7 +16,7 @@ const SPOF = new Set(bridges(LINKS));
 
 export default function Topology() {
   const [down, setDown] = useState(() => new Set());
-  const [selected, setSelected] = useState('DIST-E');
+  const [selected, setSelected] = useState('ZONE-E');
   const [hover, setHover] = useState(null);
   const [showSpof, setShowSpof] = useState(true);
   const [query, setQuery] = useState('');
@@ -35,7 +35,7 @@ export default function Topology() {
     <div className="topo">
       <div className="topo-tools">
         <label className="field inline"><span>Find device</span>
-          <input id="topo-q" type="search" placeholder="e.g. ACC-07" value={query} onChange={(e) => setQuery(e.target.value)} />
+          <input id="topo-q" type="search" placeholder="e.g. EDGE-07" value={query} onChange={(e) => setQuery(e.target.value)} />
         </label>
         <label className="check"><input id="topo-spof" type="checkbox" checked={showSpof} onChange={(e) => setShowSpof(e.target.checked)} /> Highlight single points of failure</label>
         <button type="button" className="btn ghost" onClick={() => setDown(new Set())} disabled={!down.size}>Restore all links</button>
