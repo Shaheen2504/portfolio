@@ -147,7 +147,6 @@ function Contact() {
         <p className="email-row"><span className="mono select">{EMAIL}</span><button type="button" className="btn ghost" onClick={copy}>{copied ? 'Copied' : 'Copy email'}</button></p>
         <p><a href={GITHUB} target="_blank" rel="noreferrer">github.com/Shaheen2504</a></p>
         <p><a href={LINKEDIN} target="_blank" rel="noreferrer">LinkedIn: Shaheen Raqueeb</a></p>
-        <p className="small muted">M.Tech CSE, IIT Hyderabad (2027) · B.Tech CSE, Jamia Hamdard (8.87 CGPA)</p>
       </div>
     </section>
   );
